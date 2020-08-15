@@ -1,0 +1,33 @@
+{
+  "name": "apollo-auth-react-native",
+  "version": "1.0.0",
+  "description": "An Apollo Authentication package specifically for React Native projects",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/star-scraper/apollo-auth-react-native.git"
+  },
+  "keywords": [
+    "Apollo",
+    "Client",
+    "Apollo",
+    "Auth",
+    "Authentication",
+    "JWT",
+    "React",
+    "Native",
+    "Refresh",
+    "Token",
+    "Access",
+    "Token"
+  ],
+  "author": "Charles Markovich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/star-scraper/apollo-auth-react-native/issues"
+  },
+  "homepage": "https://github.com/star-scraper/apollo-auth-react-native#readme"
+}
