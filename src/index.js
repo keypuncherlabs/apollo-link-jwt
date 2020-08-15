@@ -93,7 +93,7 @@ export const ApolloAuthReactNative = ({
     return {
       headers: {
         ...headers,
-        'x-token': cachedAccessToken,
+        'Authorization': `Bearer ${cachedAccessToken}`,
       },
     };
   });
@@ -158,7 +158,7 @@ export const ApolloAuthReactNative = ({
     return {
       headers: {
         ...headers,
-        'x-token': cachedAccessToken,
+        'Authorization': `Bearer ${cachedAccessToken}`,
       },
     };
   });
