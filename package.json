@@ -1,6 +1,6 @@
 {
   "name": "apollo-auth-react-native",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "An Apollo Authentication package specifically for React Native projects",
   "main": "src/index.js",
   "scripts": {
@@ -32,5 +32,8 @@
   "homepage": "https://github.com/star-scraper/apollo-auth-react-native#readme",
   "peerDependencies": {
     "@apollo/client": "^3.0.0"
+  },
+  "dependencies": {
+    "jwt-decode": "^2.2.0"
   }
 }

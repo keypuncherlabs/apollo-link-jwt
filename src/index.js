@@ -1,5 +1,6 @@
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
+import { default as jwtDecode } from 'jwt-decode';
 
 import { refreshTokens } from './refresh-tokens';
 
