@@ -1,8 +1,12 @@
-# jwt-check-expiration
+# jwt-check-expiration [![npm version](https://badge.fury.io/js/apollo-auth-react-native.svg)](https://badge.fury.io/js/apollo-auth-react-native)
 
 ## Purpose
 
 Todo
+
+## Peer Dependencies
+
+Apollo Client v3
 
 ## Installation
 
