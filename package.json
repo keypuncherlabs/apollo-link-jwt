@@ -29,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/star-scraper/apollo-auth-react-native/issues"
   },
-  "homepage": "https://github.com/star-scraper/apollo-auth-react-native#readme"
+  "homepage": "https://github.com/star-scraper/apollo-auth-react-native#readme",
+  "peerDependencies": {
+    "@apollo/client": "^3.0.0"
+  }
 }
