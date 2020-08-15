@@ -2,11 +2,11 @@
 
 ## Purpose
 
-Todo
+This is meant to...
 
 ## Peer Dependencies
 
-Apollo Client v3
+This was designed specifically for Apollo Client v3
 
 ## Installation
 
@@ -25,3 +25,9 @@ Todo
 ```js
 todo
 ```
+
+## Roadmap
+
+1. Convert to TypeScript
+2. Add unit tests
+3. Add option to support CORS
