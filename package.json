@@ -1,6 +1,6 @@
 {
   "name": "apollo-auth-react-native",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "An Apollo Authentication package specifically for React Native projects",
   "main": "src/index.js",
   "scripts": {
