@@ -1,4 +1,4 @@
-# jwt-check-expiration [![npm version](https://badge.fury.io/js/apollo-auth-react-native.svg)](https://badge.fury.io/js/apollo-auth-react-native)
+# Apollo Auth React Native [![npm version](https://badge.fury.io/js/apollo-auth-react-native.svg)](https://badge.fury.io/js/apollo-auth-react-native)
 
 ## Purpose
 
