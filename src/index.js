@@ -23,7 +23,7 @@ export const ApolloAuthReactNative = ({
    * 
    * Check to see if the JWT is expired
    */
-  const isJwtExpired = (token) => {
+  const isJwtExpiredCheck = (token) => {
     if (typeof(token) !== 'string' || !token) throw new Error('Invalid token provided');
   
     let isJwtExpired = false;
@@ -77,7 +77,7 @@ export const ApolloAuthReactNative = ({
      * We still handle the logic of an expired token manually as well if an endpoint
      * returns an error indicating an expired access token was provided
      */
-    if (isJwtExpired(cachedAccessToken)) isAccessTokenExpired = true;
+    if (isJwtExpiredCheck(cachedAccessToken)) isAccessTokenExpired = true;
   });
 
   /**
