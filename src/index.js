@@ -148,7 +148,7 @@ export const ApolloAuthReactNative = ({
   /**
    * Set the request headers for every request using cached tokens (when authenticated)
    */
-  const setHeadersLink = setContext((_, { headers }) => {
+  const SetHeadersLink = setContext((_, { headers }) => {
     if (debugMode) {
       console.log('\x1b[36m%s\x1b[0m', '(Entry Point) setHeadersLink() - skipped:', !cachedAccessToken);
     }
@@ -167,7 +167,7 @@ export const ApolloAuthReactNative = ({
    * Error handler to report errors and handle token refresh when a respnose
    * returns an unauthenticated error message
    */
-  const errorHandlerLink = onError(({ graphQLErrors, operation, forward }) => {
+  const ErrorHandlerLink = onError(({ graphQLErrors, operation, forward }) => {
     if (debugMode) {
       console.log('\x1b[36m%s\x1b[0m', 'errorHandlerLink()');
     }
@@ -186,7 +186,7 @@ export const ApolloAuthReactNative = ({
    * Return the array of links we composed in the proper order
    */
   return [
-    setHeadersLink,
-    errorHandlerLink,
+    SetHeadersLink,
+    ErrorHandlerLink,
   ];
 };
