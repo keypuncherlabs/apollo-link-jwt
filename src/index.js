@@ -25,12 +25,14 @@ export const ApolloAuthReactNative = ({
    */
   const isJwtExpiredCheck = (token) => {
     if (typeof(token) !== 'string' || !token) throw new Error('Invalid token provided');
-  
+
     let isJwtExpired = false;
-    const { exp } = jwtDecode(token);
+
+    const decodedToken = jwtDecode(token);
+    if (!decodedToken) return false;
+
     const currentTime = new Date().getTime() / 1000;
-  
-    if (currentTime > exp) isJwtExpired = true;
+    if (currentTime > decodedToken.exp) isJwtExpired = true;
   
     return isJwtExpired;
   }
@@ -93,7 +95,7 @@ export const ApolloAuthReactNative = ({
     return {
       headers: {
         ...headers,
-        'Authorization': `Bearer ${cachedAccessToken}`,
+        'x-token': cachedAccessToken,
       },
     };
   });
@@ -158,7 +160,7 @@ export const ApolloAuthReactNative = ({
     return {
       headers: {
         ...headers,
-        'Authorization': `Bearer ${cachedAccessToken}`,
+        'x-token': cachedAccessToken,
       },
     };
   });

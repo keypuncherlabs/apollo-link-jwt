@@ -28,6 +28,6 @@ todo
 
 ## Roadmap
 
-1. Convert to TypeScript
-2. Add unit tests
-3. Add option to support CORS
+1. Pass in the fetch parameter as a single configurable object
+2. Convert project to TypeScript
+3. Add unit tests
