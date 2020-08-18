@@ -69,6 +69,10 @@ export const ApolloAuthReactNative = ({
 
     const { accessToken, refreshToken } = await getTokens();
 
+    if (debugMode) {
+      console.log('\x1b[36m%s\x1b[0m', 'accessTokens provided:', accessToken);
+    }
+
     cachedAccessToken = accessToken;
     cachedRefreshToken = refreshToken;
   };
@@ -76,9 +80,9 @@ export const ApolloAuthReactNative = ({
   /**
    * Refresh tokens if they are expired in cache and asyncStorage through callback
    */
-  const refreshTokensLink = async (_, { headers }) => {
+  const refreshTokens = async (_, { headers }) => {
     if (debugMode) {
-      console.log('\x1b[36m%s\x1b[0m', '5. refreshTokensLink()');
+      console.log('\x1b[36m%s\x1b[0m', 'refreshTokens()');
     }
 
     // Optional variables that can be passes to make the refresh token call
@@ -106,14 +110,6 @@ export const ApolloAuthReactNative = ({
     // Update cached tokens
     cachedAccessToken = newAccessToken;
     cachedRefreshToken = newRefreshToken;
-
-    // Update the headers with new cachedAccessToken
-    return {
-      headers: {
-        ...headers,
-        'x-token': cachedAccessToken,
-      },
-    };
   };
 
   /**
@@ -127,16 +123,19 @@ export const ApolloAuthReactNative = ({
     // 1. Set cache from params if tokens are not set
     if (!cacheExists()) await setTokenCache();
 
-    console.log('cacheExists() is:', cacheExists());
     console.log('cachedAccessToken is now:', cachedAccessToken);
 
-    // 2. Update isExpired depending on accessToken exp value
-
-    // 3. Refresh the accessToken and update the cache with new tokens if it has expired
+    // 2. Refresh the accessToken and update the cache with new tokens if it has expired
     // (on failure of refresh fail gracefully)
+    if (isJwtExpired(cachedAccessToken)) refreshTokens();
 
+    /*
     // 4. Add the accessToken to the request headers if right conditions are met
     if (cacheExists() && !isJwtExpired(cachedAccessToken)) {
+      if (debugMode) {
+        console.log('Setting headers with access token!');
+      }
+
       return {
         headers: {
           ...headers,
@@ -144,6 +143,7 @@ export const ApolloAuthReactNative = ({
         },
       };
     }
+    */
   });
 
   /**
