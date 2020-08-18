@@ -2,13 +2,12 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { default as jwtDecode } from 'jwt-decode';
 
-import { refreshTokensUtil } from './refresh-tokens-util';
+import { fetchData } from './fetch-data';
 
 export const ApolloAuthReactNative = ({
   apiUrl,
   getTokens,
-  refreshTokenQuery,
-  getRefreshTokenQueryOptions,
+  getRefreshConfig,
   onRefreshComplete,
   debugMode = false,
 }) => {
@@ -85,23 +84,22 @@ export const ApolloAuthReactNative = ({
       console.log('\x1b[36m%s\x1b[0m', 'refreshTokens()');
     }
 
-    // Optional variables that can be passes to make the refresh token call
-    const refreshTokenQueryOptions = await getRefreshTokenQueryOptions();
-
     // Return early and save a network request if the refresh token has been found to be expired
     if (isJwtExpired(cachedRefreshToken)) return (null, null, 'Refresh token has expired');
 
+    // Optional variables that can be passes to make the refresh token call
+    const refreshConfig = await getRefreshConfig();
+
     // Try refreshing the access token using the cachedRefreshToken
-    const { newAccessToken, newRefreshToken, errors } = await refreshTokensUtil({
-      refreshTokenQuery,
-      refreshTokenQueryOptions,
-      refreshToken: cachedRefreshToken,
-      apiUrl,
-    });
+    const data = await fetchData(apiUrl, refreshConfig);
 
-    await onRefreshComplete(newAccessToken, newRefreshToken, errors);
+    console.log('DEBUGGER: refreshConfig:', refreshConfig);
+    console.log('DEBUGGER: data: ', data);
+  
+    /* TODO FIX ABOVE!
+    const refreshSuccess = await onRefreshComplete(data);
 
-    if (errors) {
+    if (!refreshSuccess) {
       clearCache();
 
       return;
@@ -110,6 +108,7 @@ export const ApolloAuthReactNative = ({
     // Update cached tokens
     cachedAccessToken = newAccessToken;
     cachedRefreshToken = newRefreshToken;
+    */
   };
 
   /**
