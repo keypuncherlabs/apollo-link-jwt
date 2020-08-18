@@ -20,6 +20,30 @@ export const ApolloAuthReactNative = ({
   let isAccessTokenExpired = false;
 
   /**
+   * Resets the internally cached values
+   */
+  const clearCache = () => {
+    if (debugMode) {
+      console.log('\x1b[36m%s\x1b[0m', 'clearCache():');
+    }
+
+    cachedAccessToken = null;
+    cachedRefreshToken = null;
+    isAccessTokenExpired = false;
+  };
+
+  /**
+   * Check to see if the cache already exists
+   */
+  const cacheExists = () => {
+    if (debugMode) {
+      console.log('\x1b[36m%s\x1b[0m', 'cacheExists?:', !!cachedAccessToken && !!cachedRefreshToken);
+    }
+
+    return cachedAccessToken && cachedRefreshToken;
+  }
+
+  /**
    * 
    * Check to see if the JWT is expired
    */
@@ -38,39 +62,30 @@ export const ApolloAuthReactNative = ({
   }
 
   /**
-   * Resets the internally cached values
-   */
-  const clearCache = () => {
-    cachedAccessToken = null;
-    cachedRefreshToken = null;
-    isAccessTokenExpired = false;
-  };
-
-  /**
    * Set the cached tokens when found in Async Storage to avoid expensive lookups again
    */
-  const setAuthCacheLink = setContext(async () => {
+  const setTokenCache = async () => {
     if (debugMode) {
-      console.log('\x1b[36m%s\x1b[0m', '1. setAuthCacheLink() - skipped:', !!cachedAccessToken && !!cachedRefreshToken);
+      console.log('\x1b[36m%s\x1b[0m', '1. setTokenCache() - skipped:', cacheExists);
     }
 
-    if (cachedAccessToken && cachedRefreshToken) return;
+    if (cacheExists) return;
 
     const { accessToken, refreshToken } = await getTokens();
 
     cachedAccessToken = accessToken;
     cachedRefreshToken = refreshToken;
-  });
+  };
 
   /**
    * Check expiration time of access token and reset cache accordingly
    */
-  const checkAccessTokenExpirationLink = setContext(() => {
+  const checkAccessTokenExpiration = () => {
     if (debugMode) {
       console.log('\x1b[36m%s\x1b[0m', '2. checkAccessTokenExpirationLink() - skipped:', !cachedAccessToken);
     }
 
-    if (!cachedAccessToken) return;
+    if (!cachedAccessToken) return true;
 
     /**
      * Check the expires attribute on the JWT
@@ -80,7 +95,9 @@ export const ApolloAuthReactNative = ({
      * returns an error indicating an expired access token was provided
      */
     if (isJwtExpiredCheck(cachedAccessToken)) isAccessTokenExpired = true;
-  });
+
+    return false;
+  };
 
   /**
    * Set the request headers for every request using cached tokens (when authenticated)
@@ -98,25 +115,6 @@ export const ApolloAuthReactNative = ({
         'x-token': cachedAccessToken,
       },
     };
-  });
-
-  /**
-   * Error handler to report errors and handle token refresh when a respnose
-   * returns an unauthenticated error message
-   */
-  const errorHandlerLink = onError(({ graphQLErrors, operation, forward }) => {
-    if (debugMode) {
-      console.log('\x1b[36m%s\x1b[0m', '4. errorHandlerLink()');
-    }
-
-    // If error is due to unathenticated user request and a refresh token is available
-    const { extensions } = graphQLErrors[0];
-
-    if (extensions.code === 'UNAUTHENTICATED') {
-      isAccessTokenExpired = true;
-
-      return forward(operation);
-    }
   });
 
   /**
@@ -166,13 +164,29 @@ export const ApolloAuthReactNative = ({
   });
 
   /**
+   * Error handler to report errors and handle token refresh when a respnose
+   * returns an unauthenticated error message
+   */
+  const errorHandlerLink = onError(({ graphQLErrors, operation, forward }) => {
+    if (debugMode) {
+      console.log('\x1b[36m%s\x1b[0m', 'errorHandlerLink()');
+    }
+
+    // If error is due to unathenticated user request and a refresh token is available
+    const { extensions } = graphQLErrors[0];
+
+    if (extensions.code === 'UNAUTHENTICATED') {
+      isAccessTokenExpired = true;
+
+      return forward(operation);
+    }
+  });
+
+  /**
    * Return the array of links we composed in the proper order
    */
   return [
-    setAuthCacheLink,
-    checkAccessTokenExpirationLink,
     setHeadersLink,
     errorHandlerLink,
-    refreshTokensLink,
   ];
 };
