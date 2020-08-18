@@ -17,7 +17,6 @@ export const ApolloAuthReactNative = ({
    */
   let cachedAccessToken = null;
   let cachedRefreshToken = null;
-  let isAccessTokenExpired = false;
 
   /**
    * Resets the internally cached values
@@ -29,7 +28,6 @@ export const ApolloAuthReactNative = ({
 
     cachedAccessToken = null;
     cachedRefreshToken = null;
-    isAccessTokenExpired = false;
   };
 
   /**
@@ -40,14 +38,14 @@ export const ApolloAuthReactNative = ({
       console.log('\x1b[36m%s\x1b[0m', 'cacheExists?:', !!cachedAccessToken && !!cachedRefreshToken);
     }
 
-    return cachedAccessToken && cachedRefreshToken;
+    return !!cachedAccessToken && !!cachedRefreshToken;
   }
 
   /**
    * 
    * Check to see if the JWT is expired
    */
-  const isJwtExpiredCheck = (token) => {
+  const isJwtExpired = (token) => {
     if (typeof(token) !== 'string' || !token) throw new Error('Invalid token provided');
 
     let isJwtExpired = false;
@@ -66,10 +64,8 @@ export const ApolloAuthReactNative = ({
    */
   const setTokenCache = async () => {
     if (debugMode) {
-      console.log('\x1b[36m%s\x1b[0m', '1. setTokenCache() - skipped:', cacheExists);
+      console.log('\x1b[36m%s\x1b[0m', 'setTokenCache()');
     }
-
-    if (cacheExists) return;
 
     const { accessToken, refreshToken } = await getTokens();
 
@@ -78,40 +74,18 @@ export const ApolloAuthReactNative = ({
   };
 
   /**
-   * Check expiration time of access token and reset cache accordingly
-   */
-  const checkAccessTokenExpiration = () => {
-    if (debugMode) {
-      console.log('\x1b[36m%s\x1b[0m', '2. checkAccessTokenExpirationLink() - skipped:', !cachedAccessToken);
-    }
-
-    if (!cachedAccessToken) return true;
-
-    /**
-     * Check the expires attribute on the JWT
-     * NOTE: This is not to be considered secure, but rather a convenience method
-     * to determine if we should save a network call when a refresh token is needed
-     * We still handle the logic of an expired token manually as well if an endpoint
-     * returns an error indicating an expired access token was provided
-     */
-    if (isJwtExpiredCheck(cachedAccessToken)) isAccessTokenExpired = true;
-
-    return false;
-  };
-
-  /**
    * Refresh tokens if they are expired in cache and asyncStorage through callback
    */
   const refreshTokensLink = async (_, { headers }) => {
     if (debugMode) {
-      console.log('\x1b[36m%s\x1b[0m', '5. refreshTokensLink() - skipped:', !isAccessTokenExpired);
+      console.log('\x1b[36m%s\x1b[0m', '5. refreshTokensLink()');
     }
-
-    // Skip if the access token has not expired yet
-    if (!isAccessTokenExpired || !cachedRefreshToken) return;
 
     // Optional variables that can be passes to make the refresh token call
     const refreshTokenQueryOptions = await getRefreshTokenQueryOptions();
+
+    // Return early and save a network request if the refresh token has been found to be expired
+    if (isJwtExpired(cachedRefreshToken)) return (null, null, 'Refresh token has expired');
 
     // Try refreshing the access token using the cachedRefreshToken
     const { newAccessToken, newRefreshToken, errors } = await refreshTokens({
@@ -133,9 +107,6 @@ export const ApolloAuthReactNative = ({
     cachedAccessToken = newAccessToken;
     cachedRefreshToken = newRefreshToken;
 
-    // Reset isAccessTokenExpired
-    isAccessTokenExpired = false;
-
     // Update the headers with new cachedAccessToken
     return {
       headers: {
@@ -148,12 +119,16 @@ export const ApolloAuthReactNative = ({
   /**
    * Set the request headers for every request using cached tokens (when authenticated)
    */
-  const SetHeadersLink = setContext((_, { headers }) => {
+  const SetHeadersLink = setContext(async (_, { headers }) => {
     if (debugMode) {
-      console.log('\x1b[36m%s\x1b[0m', '(Entry Point) setHeadersLink() - skipped:', !cachedAccessToken);
+      console.log('\x1b[36m%s\x1b[0m', '(Entry Point) setHeadersLink()');
     }
 
     // 1. Set cache from params if tokens are not set
+    if (!cacheExists()) await setTokenCache();
+
+    console.log('cacheExists() is:', cacheExists());
+    console.log('cachedAccessToken is now:', cachedAccessToken);
 
     // 2. Update isExpired depending on accessToken exp value
 
@@ -161,15 +136,14 @@ export const ApolloAuthReactNative = ({
     // (on failure of refresh fail gracefully)
 
     // 4. Add the accessToken to the request headers if right conditions are met
-
-    if (!cachedAccessToken) return;
-
-    return {
-      headers: {
-        ...headers,
-        'x-token': cachedAccessToken,
-      },
-    };
+    if (cacheExists() && !isJwtExpired(cachedAccessToken)) {
+      return {
+        headers: {
+          ...headers,
+          'x-token': cachedAccessToken,
+        },
+      };
+    }
   });
 
   /**
@@ -185,8 +159,6 @@ export const ApolloAuthReactNative = ({
     const { extensions } = graphQLErrors[0];
 
     if (extensions.code === 'UNAUTHENTICATED') {
-      isAccessTokenExpired = true;
-
       return forward(operation);
     }
   });
