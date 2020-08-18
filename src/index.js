@@ -123,13 +123,10 @@ export const ApolloAuthReactNative = ({
     // 1. Set cache from params if tokens are not set
     if (!cacheExists()) await setTokenCache();
 
-    console.log('cachedAccessToken is now:', cachedAccessToken);
-
     // 2. Refresh the accessToken and update the cache with new tokens if it has expired
     // (on failure of refresh fail gracefully)
-    if (isJwtExpired(cachedAccessToken)) refreshTokens();
+    if (cachedAccessToken && isJwtExpired(cachedAccessToken)) refreshTokens();
 
-    /*
     // 4. Add the accessToken to the request headers if right conditions are met
     if (cacheExists() && !isJwtExpired(cachedAccessToken)) {
       if (debugMode) {
@@ -143,7 +140,6 @@ export const ApolloAuthReactNative = ({
         },
       };
     }
-    */
   });
 
   /**
