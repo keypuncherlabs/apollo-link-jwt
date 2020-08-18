@@ -100,27 +100,9 @@ export const ApolloAuthReactNative = ({
   };
 
   /**
-   * Set the request headers for every request using cached tokens (when authenticated)
-   */
-  const setHeadersLink = setContext((_, { headers }) => {
-    if (debugMode) {
-      console.log('\x1b[36m%s\x1b[0m', '3. setHeadersLink() - skipped:', !cachedAccessToken);
-    }
-
-    if (!cachedAccessToken) return;
-
-    return {
-      headers: {
-        ...headers,
-        'x-token': cachedAccessToken,
-      },
-    };
-  });
-
-  /**
    * Refresh tokens if they are expired in cache and asyncStorage through callback
    */
-  const refreshTokensLink = setContext(async (_, { headers }) => {
+  const refreshTokensLink = async (_, { headers }) => {
     if (debugMode) {
       console.log('\x1b[36m%s\x1b[0m', '5. refreshTokensLink() - skipped:', !isAccessTokenExpired);
     }
@@ -155,6 +137,24 @@ export const ApolloAuthReactNative = ({
     isAccessTokenExpired = false;
 
     // Update the headers with new cachedAccessToken
+    return {
+      headers: {
+        ...headers,
+        'x-token': cachedAccessToken,
+      },
+    };
+  };
+
+  /**
+   * Set the request headers for every request using cached tokens (when authenticated)
+   */
+  const setHeadersLink = setContext((_, { headers }) => {
+    if (debugMode) {
+      console.log('\x1b[36m%s\x1b[0m', '(Entry Point) setHeadersLink() - skipped:', !cachedAccessToken);
+    }
+
+    if (!cachedAccessToken) return;
+
     return {
       headers: {
         ...headers,
