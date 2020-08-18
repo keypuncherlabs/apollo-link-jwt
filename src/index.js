@@ -127,7 +127,7 @@ export const ApolloAuthReactNative = ({
     // (on failure of refresh fail gracefully)
     if (cachedAccessToken && isJwtExpired(cachedAccessToken)) refreshTokens();
 
-    // 4. Add the accessToken to the request headers if right conditions are met
+    // 3. Add the accessToken to the request headers if right conditions are met
     if (cacheExists() && !isJwtExpired(cachedAccessToken)) {
       if (debugMode) {
         console.log('Setting headers with access token!');
