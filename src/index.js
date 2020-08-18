@@ -2,7 +2,7 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { default as jwtDecode } from 'jwt-decode';
 
-import { refreshTokens } from './refresh-tokens';
+import { refreshTokensUtil } from './refresh-tokens-util';
 
 export const ApolloAuthReactNative = ({
   apiUrl,
@@ -80,7 +80,7 @@ export const ApolloAuthReactNative = ({
   /**
    * Refresh tokens if they are expired in cache and asyncStorage through callback
    */
-  const refreshTokens = async (_, { headers }) => {
+  const refreshTokens = async () => {
     if (debugMode) {
       console.log('\x1b[36m%s\x1b[0m', 'refreshTokens()');
     }
@@ -92,7 +92,7 @@ export const ApolloAuthReactNative = ({
     if (isJwtExpired(cachedRefreshToken)) return (null, null, 'Refresh token has expired');
 
     // Try refreshing the access token using the cachedRefreshToken
-    const { newAccessToken, newRefreshToken, errors } = await refreshTokens({
+    const { newAccessToken, newRefreshToken, errors } = await refreshTokensUtil({
       refreshTokenQuery,
       refreshTokenQueryOptions,
       refreshToken: cachedRefreshToken,
@@ -125,7 +125,7 @@ export const ApolloAuthReactNative = ({
 
     // 2. Refresh the accessToken and update the cache with new tokens if it has expired
     // (on failure of refresh fail gracefully)
-    if (cachedAccessToken && isJwtExpired(cachedAccessToken)) refreshTokens();
+    if (cachedAccessToken && isJwtExpired(cachedAccessToken)) await refreshTokens();
 
     // 3. Add the accessToken to the request headers if right conditions are met
     if (cacheExists() && !isJwtExpired(cachedAccessToken)) {

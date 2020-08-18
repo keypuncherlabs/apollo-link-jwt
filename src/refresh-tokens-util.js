@@ -1,6 +1,6 @@
 import { fetchData } from './fetch-data';
 
-export const refreshTokens = async ({ refreshToken, refreshTokenQuery, refreshTokenQueryOptions, apiUrl }) => {
+export const refreshTokensUtil = async ({ refreshToken, refreshTokenQuery, refreshTokenQueryOptions, apiUrl }) => {
   const variables = {
     ...refreshTokenQueryOptions,
     refreshToken,
