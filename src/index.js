@@ -153,6 +153,15 @@ export const ApolloAuthReactNative = ({
       console.log('\x1b[36m%s\x1b[0m', '(Entry Point) setHeadersLink() - skipped:', !cachedAccessToken);
     }
 
+    // 1. Set cache from params if tokens are not set
+
+    // 2. Update isExpired depending on accessToken exp value
+
+    // 3. Refresh the accessToken and update the cache with new tokens if it has expired
+    // (on failure of refresh fail gracefully)
+
+    // 4. Add the accessToken to the request headers if right conditions are met
+
     if (!cachedAccessToken) return;
 
     return {
