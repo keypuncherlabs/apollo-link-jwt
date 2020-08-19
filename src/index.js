@@ -7,8 +7,6 @@ import { fetchData } from './fetch-data';
 export const ApolloAuthReactNative = ({
   apiUrl,
   getTokens,
-  // refreshTokenQuery,
-  // getRefreshTokenQueryOptions,
   fetchBody,
   fetchHeaders,
   onRefreshComplete,
@@ -44,24 +42,6 @@ export const ApolloAuthReactNative = ({
   }
 
   /**
-   * 
-   * Check to see if the JWT is expired
-   */
-  const isJwtExpired = (token) => {
-    if (typeof(token) !== 'string' || !token) throw new Error('Invalid token provided');
-
-    let isJwtExpired = false;
-
-    const decodedToken = jwtDecode(token);
-    if (!decodedToken) return false;
-
-    const currentTime = new Date().getTime() / 1000;
-    if (currentTime > decodedToken.exp) isJwtExpired = true;
-  
-    return isJwtExpired;
-  }
-
-  /**
    * Set the cached tokens when found in Async Storage to avoid expensive lookups again
    */
   const setTokenCache = async () => {
@@ -78,6 +58,24 @@ export const ApolloAuthReactNative = ({
     cachedAccessToken = accessToken;
     cachedRefreshToken = refreshToken;
   };
+
+  /**
+   * 
+   * Check to see if the JWT is expired
+   */
+  const isJwtExpired = (token) => {
+    if (typeof(token) !== 'string' || !token) throw new Error('Invalid token provided');
+
+    let isJwtExpired = false;
+
+    const decodedToken = jwtDecode(token);
+    if (!decodedToken) return false;
+
+    const currentTime = new Date().getTime() / 1000;
+    if (currentTime > decodedToken.exp) isJwtExpired = true;
+  
+    return isJwtExpired;
+  }
 
   /**
    * Utility to inject the refresh token into the fetch body
