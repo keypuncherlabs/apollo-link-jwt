@@ -1,9 +1,19 @@
-export const fetchData = async (apiUrl, fetchConfig) => {
+export const fetchData = async ({ query, variables, apiUrl }) => {
   try {
-    const response = await fetch(apiUrl, JSON.stringify(fetchConfig));
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
+    });
 
-    return response.json();
+    return await response.json();
   } catch (e) {
-    console.log('Refresh token response error:', e);
+    console.log(e);
   }
 };
