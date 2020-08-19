@@ -7,8 +7,10 @@ import { fetchData } from './fetch-data';
 export const ApolloAuthReactNative = ({
   apiUrl,
   getTokens,
-  refreshTokenQuery,
-  getRefreshTokenQueryOptions,
+  // refreshTokenQuery,
+  // getRefreshTokenQueryOptions,
+  fetchBody,
+  fetchHeaders,
   onRefreshComplete,
   debugMode = false,
 }) => {
@@ -78,6 +80,35 @@ export const ApolloAuthReactNative = ({
   };
 
   /**
+   * Utility to inject the refresh token into the fetch body
+   */
+  const addRefreshTokenToBody = async (fetchBody, refreshToken) => {
+    const body = await fetchBody();
+
+    // Create variables object if it wasn't intially set
+    if (!body.variables) body.variables = {};
+
+    // Inject the refresh token in the variables object
+    // This allows users to also add their own variables to the fetch
+    // in additon to the refresh token if needed
+    body.variables.refreshToken = refreshToken;
+
+    return body;
+  }
+
+  /**
+   * Set default headers if none provided
+   */
+  const getDefaultFetchHeaders = (fetchHeaders) => {
+    if (fetchHeaders) return fetchHeaders;
+
+    // Set overridable default headers
+    return {
+      'Content-Type': 'application/json',
+    };
+  }
+
+  /**
    * Refresh tokens if they are expired in cache and asyncStorage through callback
    */
   const refreshTokens = async () => {
@@ -88,19 +119,17 @@ export const ApolloAuthReactNative = ({
     // Return early and save a network request if the refresh token has been found to be expired
     if (isJwtExpired(cachedRefreshToken)) return (null, null, 'Refresh token has expired');
 
-    // Optional variables that can be passes to make the refresh token call
-    const refreshTokenQueryOptions = await getRefreshTokenQueryOptions();
+    // Construct the fetch body
+    const body = await addRefreshTokenToBody(fetchBody, cachedRefreshToken);
 
-    const variables = {
-      ...refreshTokenQueryOptions,
-      refreshToken: cachedRefreshToken,
-    };
+    // Get the proper headers
+    const headers = getDefaultFetchHeaders(fetchHeaders);
 
     // Try refreshing the access token using the cachedRefreshToken
     const response = await fetchData({
-      query: refreshTokenQuery,
-      variables,
       apiUrl,
+      headers,
+      body,
     });
 
     // Allow configurable function to indicate if the endpoint returned the correct response
