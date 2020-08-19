@@ -4,7 +4,7 @@
   "description": "An Apollo Authentication package specifically for React Native projects",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -35,5 +35,9 @@
   },
   "dependencies": {
     "jwt-decode": "^2.2.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "jest": "^26.4.0"
   }
 }
