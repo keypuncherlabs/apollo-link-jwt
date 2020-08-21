@@ -40,6 +40,7 @@ return new ApolloClient({
 
 ### apiUrl
 
+| --- | --- | 
 | required | string |
 
 The URL string of your API endpoint where the refresh token call should be made
