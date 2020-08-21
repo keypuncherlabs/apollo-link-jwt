@@ -1,4 +1,4 @@
-![Apollo Link JWT Logo](https://starscraper.io/images/png/apollo-link-jwt-logo.png)
+![Apollo Link JWT Logo](https://starscraper.io/images/png/apollo-link-jwt.png)
 
 # Apollo Link JWT
 [![npm version](https://badge.fury.io/js/apollo-link-jwt.svg)](https://badge.fury.io/js/apollo-link-jwt)
