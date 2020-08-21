@@ -8,7 +8,7 @@ An Apollo Link utility to handle JWT Authorization requests by automatically set
 
 `npm i apollo-link-jwt`
 
-Note: Apollo V3 is a required peer depedency expected to be installed in your project already
+*Note: Apollo V3 is a required peer depedency expected to be installed in your project already*
 
 ## Example
 
