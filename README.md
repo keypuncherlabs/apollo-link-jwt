@@ -6,8 +6,8 @@ An Apollo Link utility to handle JWT Authorization requests by automatically set
 
 ## Technologies
 
-- Apollo Client v3
-- JWT Decode
+- [Apollo Client React v3.0](https://www.apollographql.com/docs/react/)
+- [JWT Decode](https://www.npmjs.com/package/jwt-decode)
 
 ## Install
 
