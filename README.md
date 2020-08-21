@@ -40,6 +40,8 @@ return new ApolloClient({
 
 ### apiUrl
 
+| required | string |
+
 The URL string of your API endpoint where the refresh token call should be made
 
 ### getTokens (async)
@@ -52,7 +54,7 @@ The query required to fetch a new access token with when a valid refresh token w
 
 ### fetchHeaders
 
-An optional attribute to set the headers needed during the refresh token fetch.  This defaults to 'Content-Type': 'application/json' if nothing is provided.
+An optional attribute to set the headers needed during the refresh token fetch.  This defaults to `{ 'Content-Type': 'application/json' }` if nothing is provided.
 
 ### onRefreshComplete (async)
 
