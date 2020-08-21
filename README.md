@@ -36,6 +36,18 @@ return new ApolloClient({
 });
 ~~~
 
+## Motivation
+
+Becasue handling JWT in the client should be an easy process and consistently handled across projects using Apollo Client.  The premise is simple:
+
+1. Set the request headers once the app has a valid access token and refresh token
+2. Check the expiration of the access token in the utility before every network request, if the access token has an expired 'exp' attribute, then use the refresh token to make a fetch and retrieve a new access token and refresh token
+3. Send the tokens back to your client application so they can store them someplace (potentially async storage or local storage)
+4. Automatically append the access token JWT to the headers going forward
+5. Allow the app to handle a graceful logout when the refresh token fetch has failed (in the case of the refresh token being invalid)
+
+The manual process of checking the access tokens expiration should be done in the client before every network request so an unnecessary network request is not made once it's expired.  We can use JTW Decode here because we're only validating the token expiration time, even if this was faked by the user, it would only trigger a refresh token lookup sooner than expected.
+
 ## API
 
 ### 
