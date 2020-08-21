@@ -54,6 +54,10 @@ return new ApolloClient({
 });
 ~~~
 
+## Request Headers
+
+This utility will set the `Authorization: Bearer token` headers on requests when an access token is provided. This scheme is described by the [rfc6750](https://tools.ietf.org/html/rfc6750)
+
 ## Motivation
 
 Becasue handling JWT in the client should be an easy process and consistently handled across projects using Apollo Client. In addition, there are many times when you will want to provide an access token and refresh token stored in AsynStorage (if you're using React Native), which requires async support by the utlity.  With Apollo Link JWT, you can pass async functions which get the tokens on the client with aysnc support.
