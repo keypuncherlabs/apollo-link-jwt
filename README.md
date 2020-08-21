@@ -28,21 +28,16 @@ const apolloLinkJWT = ApolloLinkJWT({
   apiUrl: 'https://your-api-url',
   getTokens: async () => {
     ...
-
     return { accessToken, refreshToken };
   },
   fetchBody: async () => {
     ...
-
     return { query };
   },
   onRefreshComplete: async (data) => {
     // Parse 'data' to extract the tokens from your existing refresh token API response
-
-    // Handle errors if fetch failed
-    // signOut();
+    // Handle errors if fetch failed, call existing methods such as signOut();
     ...
-
     return { newAccessToken, newRefreshToken };
   },
 });
