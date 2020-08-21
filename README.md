@@ -38,12 +38,11 @@ return new ApolloClient({
 
 ## API
 
-### apiUrl
+### 
 
-| --- | --- | 
-| required | string |
-
-The URL string of your API endpoint where the refresh token call should be made
+| Attribute | Required | Async Supported | Default | Description |
+| --- | --- | --- | --- | --- |
+| apiUrl | true | no | - | The URL string of your API endpoint where the refresh token call should be made |
 
 ### getTokens (async)
 
