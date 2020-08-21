@@ -20,9 +20,9 @@ const httpLink = createHttpLink({
 });
 
 /**
- * Apollo Link JWT
+ * Create the Apollo Link JWT
  */
-const apolloAuthReactNativeLink = ApolloAuthReactNative({
+const apolloLinkJWT = ApolloLinkJWT({
   apiUrl,
   getTokens,
   fetchBody,
@@ -32,7 +32,7 @@ const apolloAuthReactNativeLink = ApolloAuthReactNative({
 
 return new ApolloClient({
   link: from([
-    ...apolloAuthReactNativeLink, // NOTE: Use the spread operator to return the array of links created by the package
+    ...apolloLinkJWT, // NOTE: Use the spread operator to return the array of links created by the package
     httpLink,
   ]),
 });
@@ -121,9 +121,9 @@ const fetchBody = async () => ({
 });
 
 /**
- * Create the Auth Link
+ * Create the Apollo Link JWT
  */
-const apolloAuthReactNativeLink = ApolloAuthReactNative({
+const apolloLinkJWT = ApolloLinkJWT({
   apiUrl: GRAPHQL_API,
   getTokens,
   fetchBody,
@@ -137,7 +137,7 @@ const httpLink = createHttpLink({
 
 return new ApolloClient({
   link: from([
-    ...apolloAuthReactNativeLink,
+    ...apolloLinkJWT, // NOTE: Use the spread operator to return the array of links created by the package
     httpLink,
   ]),
 });
