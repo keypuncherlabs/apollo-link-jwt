@@ -1,35 +1,38 @@
 {
-  "name": "apollo-auth-react-native",
-  "version": "2.0.3",
-  "description": "An Apollo Authentication package specifically for React Native projects",
+  "name": "apollo-link-jwt",
+  "version": "1.0.0",
+  "description": "Apollo Link for JWT authorization with refresh token handling",
   "main": "lib/index.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/star-scraper/apollo-auth-react-native.git"
+    "url": "git+https://github.com/star-scraper/apollo-link-jwt.git"
   },
   "keywords": [
-    "Apollo",
-    "Client",
-    "Apollo",
-    "Auth",
-    "Authentication",
-    "JWT",
-    "React",
-    "Native",
-    "Refresh",
-    "Token",
-    "Access",
-    "Token"
+    "apollo",
+    "link",
+    "client",
+    "react",
+    "react",
+    "native",
+    "jwt",
+    "json",
+    "web",
+    "token",
+    "auth",
+    "authorization",
+    "refesh",
+    "access",
+    "token"
   ],
   "author": "Charles Markovich",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/star-scraper/apollo-auth-react-native/issues"
+    "url": "https://github.com/star-scraper/apollo-link-jwt/issues"
   },
-  "homepage": "https://github.com/star-scraper/apollo-auth-react-native#readme",
+  "homepage": "https://github.com/star-scraper/apollo-link-jwt#readme",
   "peerDependencies": {
     "@apollo/client": "^3.0.0"
   },
