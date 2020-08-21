@@ -2,7 +2,7 @@
 
 ## Introduction
 
-An Apollo Link utility to handle JWT Authorization requests by automatically setting the headers with the access token and handling the refresh logic when the access token expires
+An Apollo Link utility to handle JWT Authorization requests by automatically setting the headers with the access token and handling the refresh logic when the access token expires.  The package automatically detects when an access token has expired using JWT decode to keep the secret out of the client.  This should never be trusted for anything more than verifying if the token is still valid!
 
 ## Technologies
 
@@ -18,7 +18,81 @@ Note: Apollo V3 is a required peer depedency expected to be installed in your pr
 ## Example
 
 ```
-Add actual code example here...
+  const getTokens = async () => {
+    const accessToken = await getAsyncStorage(ACCESS_TOKEN);
+    const refreshToken = await getAsyncStorage(REFRESH_TOKEN);
+
+    return {
+      accessToken,
+      refreshToken,
+    };
+  };
+
+  const onRefreshComplete = async (data) => {
+    /**
+     * Find and return the access token and refresh token from the provided fetch callback
+     */
+    const newAccessToken = data?.data?.token?.accessToken;
+    const newRefreshToken = data?.data?.token?.refreshToken;
+
+    /**
+     * Handle sign out logic if the refresh token attempt failed
+     */
+    if (!newAccessToken || !newRefreshToken) {
+      console.log('Redirect back to login, because the refresh token was expired!');
+
+      signOutHandler();
+
+      return;
+    }
+
+    // Update tokens in AsyncStorage
+    await setAsyncStorage(ACCESS_TOKEN, newAccessToken);
+    await setAsyncStorage(REFRESH_TOKEN, newRefreshToken);
+
+    // Return the tokens back to the lib to cache for later use
+    return {
+      newAccessToken,
+      newRefreshToken,
+    };
+  };
+
+  /**
+   * Configure the body of the token refresh method
+   */
+  const fetchBody = async () => ({
+    query: `mutation RefreshAccessToken($email: String!, $refreshToken: String!) {
+      token (email: $email, refreshToken: $refreshToken) {
+        accessToken
+        refreshToken
+      }
+    }`,
+    variables: {
+      email: await getAsyncStorage(EMAIL),
+    },
+  });
+
+  /**
+   * Create the Auth Link
+   */
+  const apolloAuthReactNativeLink = ApolloAuthReactNative({
+    apiUrl: GRAPHQL_API,
+    getTokens,
+    fetchBody,
+    onRefreshComplete,
+    debugMode: true,
+  });
+
+  const httpLink = createHttpLink({
+    uri: GRAPHQL_API,
+  });
+
+  return new ApolloClient({
+    link: from([
+      ...apolloAuthReactNativeLink,
+      httpLink,
+    ]),
+  });
 ```
 
 ## API
