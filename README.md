@@ -17,7 +17,7 @@ Note: Apollo V3 is a required peer depedency expected to be installed in your pr
 
 ## Example
 
-```
+~~~javascript
   const getTokens = async () => {
     const accessToken = await getAsyncStorage(ACCESS_TOKEN);
     const refreshToken = await getAsyncStorage(REFRESH_TOKEN);
@@ -93,7 +93,7 @@ Note: Apollo V3 is a required peer depedency expected to be installed in your pr
       httpLink,
     ]),
   });
-```
+~~~
 
 ## API
 
