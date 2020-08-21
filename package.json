@@ -1,6 +1,6 @@
 {
   "name": "apollo-link-jwt",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Apollo Link for JWT authorization with refresh token handling",
   "main": "lib/index.js",
   "scripts": {
