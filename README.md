@@ -55,7 +55,7 @@ The manual process of checking the access tokens expiration should be done in th
 | apiUrl | true | false | - | The URL string of your API endpoint where the refresh token call should be made. |
 | getTokens | true | true | - | An async supported function that should return a valid accessToken and refreshToken stored in the client.  Because this supports aysnc, you can use local storage or async storage which requires 'await'. |
 | fetchBody | true | true | - | The query required to fetch a new access token with when a valid refresh token was given.  The package also accepts an optional 'variables' attribute which can contain additional fields if required by the server, such as 'email'. |
-| fetchHeaders | false | false | - | An optional attribute to set the headers needed during the refresh token fetch.  This defaults to `{ 'Content-Type': 'application/json' }` if nothing is provided. |
+| fetchHeaders | false | false | `{ 'Content-Type': 'application/json' }` | An optional attribute to set the headers needed during the refresh token fetch. |
 | onRefreshComplete | true | true | - | The main callback required to handle the fetch logic.  This function should contain the logic required to parse the tokens from the response and return the new access and refresh tokens to the utility. You can also perform any other logic in here on failures, such as calling a sign out method already defined in the application. |
 | debugMode | false | false | - | Optional boolean that sends helpful console logs to the output for debugging purposes. Recommended to leave this off for production. |
 
