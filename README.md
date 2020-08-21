@@ -22,7 +22,7 @@ const httpLink = createHttpLink({
 });
 
 /**
- * Create the Apollo Link JWT
+ * Create Apollo Link JWT
  */
 const apolloLinkJWT = ApolloLinkJWT({
   apiUrl: 'https://your-api-url',
@@ -133,7 +133,7 @@ const fetchBody = async () => ({
 });
 
 /**
- * Create the Apollo Link JWT
+ * Create Apollo Link JWT
  */
 const apolloLinkJWT = ApolloLinkJWT({
   apiUrl: GRAPHQL_API,
