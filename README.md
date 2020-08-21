@@ -38,7 +38,9 @@ return new ApolloClient({
 
 ## Motivation
 
-Becasue handling JWT in the client should be an easy process and consistently handled across projects using Apollo Client.  The premise is simple:
+Becasue handling JWT in the client should be an easy process and consistently handled across projects using Apollo Client. In addition, there are many times when you will want to provide an access token and refresh token stored in AsynStorage (if you're using React Native), which requires async support by the utlity.  With Apollo Link JWT, you can pass async functions which get the tokens on the client with aysnc support.
+
+The premise is simple:
 
 1. Set the request headers once the app has a valid access token and refresh token
 2. Check the expiration of the access token in the utility before every network request, if the access token has an expired 'exp' attribute, then use the refresh token to make a fetch and retrieve a new access token and refresh token
