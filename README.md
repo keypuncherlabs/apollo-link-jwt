@@ -1,4 +1,4 @@
-# Apollo Link JWT [![npm version](https://badge.fury.io/js/apollo-auth-react-native.svg)](https://badge.fury.io/js/apollo-auth-react-native)
+# Apollo Link JWT [![npm version](https://badge.fury.io/js/apollo-link-jwt.svg)](https://badge.fury.io/js/apollo-link-jwt)
 
 ## Introduction
 
