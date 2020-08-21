@@ -25,11 +25,26 @@ const httpLink = createHttpLink({
  * Create the Apollo Link JWT
  */
 const apolloLinkJWT = ApolloLinkJWT({
-  apiUrl,
-  getTokens,
-  fetchBody,
-  onRefreshComplete,
-  debugMode,
+  apiUrl: 'https://your-api-url',
+  getTokens: async () => {
+    ...
+
+    return { accessToken, refreshToken };
+  },
+  fetchBody: async () => {
+    ...
+
+    return { query };
+  },
+  onRefreshComplete: async (data) => {
+    // Parse 'data' to extract the tokens from your existing refresh token API response
+
+    // Handle errors if fetch failed
+    // signOut();
+    ...
+
+    return { newAccessToken, newRefreshToken };
+  },
 });
 
 return new ApolloClient({
