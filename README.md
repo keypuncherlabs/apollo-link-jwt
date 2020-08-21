@@ -4,6 +4,8 @@
 
 An Apollo Link utility to handle JWT Authorization requests by automatically setting the headers with the access token and handling the refresh logic when the access token expires.  The package automatically detects when an access token has expired using JWT decode to keep the secret out of the client.  This should never be trusted for anything more than verifying if the token is still valid!
 
+**Note:** *This package supports tokens stored in async-storage or any other manner of async lookup, helpful for React Native projects*
+
 ## Install
 
 `npm i apollo-link-jwt`
