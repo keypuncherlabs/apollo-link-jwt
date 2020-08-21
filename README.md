@@ -4,11 +4,6 @@
 
 An Apollo Link utility to handle JWT Authorization requests by automatically setting the headers with the access token and handling the refresh logic when the access token expires.  The package automatically detects when an access token has expired using JWT decode to keep the secret out of the client.  This should never be trusted for anything more than verifying if the token is still valid!
 
-## Technologies
-
-- [Apollo Client React v3.0](https://www.apollographql.com/docs/react/)
-- [JWT Decode](https://www.npmjs.com/package/jwt-decode)
-
 ## Install
 
 `npm i apollo-link-jwt`
@@ -146,6 +141,11 @@ return new ApolloClient({
   ]),
 });
 ~~~
+
+## Technologies
+
+- [Apollo Client React v3.0](https://www.apollographql.com/docs/react/)
+- [JWT Decode](https://www.npmjs.com/package/jwt-decode)
 
 ## Roadmap
 
