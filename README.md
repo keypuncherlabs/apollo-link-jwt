@@ -101,11 +101,11 @@ return new ApolloClient({
 
 The URL string of your API endpoint where the refresh token call should be made
 
-### getTokens
+### getTokens (async)
 
 An async supported function that should return a valid accessToken and refreshToken stored in the client.  Because this supports aysnc, you can use local storage or async storage which requires 'await'.
 
-### fetchBody
+### fetchBody (async)
 
 The query required to fetch a new access token with when a valid refresh token was given.  The package also accepts an optional 'variables' attribute which can contain additional fields if required by the server, such as 'email'.
 
@@ -113,7 +113,7 @@ The query required to fetch a new access token with when a valid refresh token w
 
 An optional attribute to set the headers needed during the refresh token fetch.  This defaults to 'Content-Type': 'application/json' if nothing is provided.
 
-### onRefreshComplete
+### onRefreshComplete (async)
 
 The main callback required to handle the fetch logic.  This function should contain the logic required to parse the tokens from the response and return the new access and refresh tokens to the utility. You can also perform any other logic in here on failures, such as calling a sign out method already defined in the application.
 
