@@ -97,15 +97,11 @@ const getTokens = async () => {
 };
 
 const onRefreshComplete = async (data) => {
-  /**
-   * Find and return the access token and refresh token from the provided fetch callback
-   */
+  // Find and return the access token and refresh token from the provided fetch callback
   const newAccessToken = data?.data?.token?.accessToken;
   const newRefreshToken = data?.data?.token?.refreshToken;
 
-  /**
-   * Handle sign out logic if the refresh token attempt failed
-   */
+  // Handle sign out logic if the refresh token attempt failed
   if (!newAccessToken || !newRefreshToken) {
     console.log('Redirect back to login, because the refresh token was expired!');
 
