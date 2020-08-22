@@ -48,8 +48,8 @@ const apolloLinkJWT = ApolloLinkJWT({
 
 return new ApolloClient({
   link: from([
-    ...apolloLinkJWT, // NOTE: Use the spread operator to return the array of links created by the package
-    httpLink,
+    apolloLinkJWT,
+    httpLink, // Add terminating link last
   ]),
 });
 ~~~
@@ -157,8 +157,8 @@ const httpLink = createHttpLink({
 
 return new ApolloClient({
   link: from([
-    ...apolloLinkJWT, // NOTE: Use the spread operator to return the array of links created by the package
-    httpLink,
+    apolloLinkJWT,
+    httpLink, // Add terminating link last
   ]),
 });
 ~~~
