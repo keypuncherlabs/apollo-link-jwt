@@ -1,6 +1,6 @@
-import addRefreshTokenToBody from '../lib/add-refresh-token-to-body';
+import { addRefreshTokenToBody }from '../lib/add-refresh-token-to-body';
 
-test('addRefreshTokenToBody', () => {
+test('addRefreshTokenToBody', async () => {
   const fetchBody = () => ({
     query: 'someQueryHere',
   });
@@ -14,9 +14,9 @@ test('addRefreshTokenToBody', () => {
     }
   }
 
-  const createdBody = addRefreshTokenToBody(fetchBody, refreshToken);
+  const createdBody = await addRefreshTokenToBody(fetchBody, refreshToken);
 
   console.log('createdBody:', createdBody);
   
-  expect(createdBody).toBe(expectedBody);
+  expect(createdBody).toEqual(expectedBody);
 });

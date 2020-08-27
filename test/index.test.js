@@ -1,0 +1,1 @@
+import ApolloLinkJWT from '../lib/index';
