@@ -31,11 +31,15 @@ const httpLink = createHttpLink({
 const apolloLinkJWT = ApolloLinkJWT({
   apiUrl: 'https://your-api-url',
   getTokens: async () => {
-    ...
+    const accessToken = await AsyncStorage.getItem('ACCESS_TOKEN');
+    const refreshToken = await AsyncStorage.getItem('REFRESH_TOKEN');
+
     return { accessToken, refreshToken };
   },
   fetchBody: async () => {
-    ...
+    // Define fetch query
+    const query = {...};
+
     return { query };
   },
   onRefreshComplete: async (data) => {
