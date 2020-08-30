@@ -8,8 +8,8 @@ describe('Fetch', () => {
         new Promise(resolve => {
           resolve({
             json: () => new Promise(resolve => resolve({
-              title: 'Post litle',
-              body: 'Post Boby'
+              title: 'Post Title',
+              body: 'Post Body'
             }))
           })
         })
