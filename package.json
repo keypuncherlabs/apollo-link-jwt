@@ -4,7 +4,11 @@
   "description": "Apollo Link for JWT authorization with refresh token handling",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest && codecov"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   },
   "repository": {
     "type": "git",
@@ -41,6 +45,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.10.4",
+    "codecov": "^3.7.2",
     "jest": "^26.4.0"
   }
 }
