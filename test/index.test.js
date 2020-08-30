@@ -1,1 +1,8 @@
-import ApolloLinkJWT from '../lib/index';
+
+describe('ApolloLinkJWT testing', () => {
+  
+    it.skip('ApolloLinkJWT testing ',  () => {
+     
+    });
+  });
+  

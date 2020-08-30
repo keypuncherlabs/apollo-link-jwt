@@ -4,7 +4,9 @@
   "description": "Apollo Link for JWT authorization with refresh token handling",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "coverage" : "jest --coverage=true"
+
   },
   "repository": {
     "type": "git",
