@@ -2,6 +2,7 @@
 
 # Apollo Link JWT
 [![npm version](https://badge.fury.io/js/apollo-link-jwt.svg)](https://badge.fury.io/js/apollo-link-jwt)
+[![codecov](https://codecov.io/gh/star-scraper/apollo-link-jwt/branch/master/graph/badge.svg)](https://codecov.io/gh/star-scraper/apollo-link-jwt)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/star-scraper/apollo-link-jwt/pulls)
 
 An Apollo Link utility to handle JWT Authorization requests by automatically setting the headers with the access token and handling the refresh logic when the access token expires.
