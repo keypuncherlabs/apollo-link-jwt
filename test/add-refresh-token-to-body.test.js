@@ -15,8 +15,5 @@ test('addRefreshTokenToBody', async () => {
   }
 
   const createdBody = await addRefreshTokenToBody(fetchBody, refreshToken);
-
-  console.log('createdBody:', createdBody);
-  
   expect(createdBody).toEqual(expectedBody);
 });
